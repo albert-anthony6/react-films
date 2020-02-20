@@ -10,6 +10,9 @@ import {
 } from '../../assets/config';
 
 import HeroImage from '../../components/hero-image/HeroImage.component';
+import Grid from '../../components/grid/Grid.component';
+import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
+import NoImage from '../../assets/no_image.jpg';
 
 class Home extends React.Component{
     constructor(){
@@ -47,7 +50,8 @@ class Home extends React.Component{
     }
 
     render(){
-        const {heroImage, currentPage, totalPages} = this.state.data;
+        const {heroImage, currentPage, totalPages, movies} = this.state.data;
+        const {searchTerm, loading, error} = this.state;
         console.log(this.state);
         return(
             <React.Fragment>
@@ -56,6 +60,17 @@ class Home extends React.Component{
                     title={heroImage.original_title}
                     text={heroImage.overview}
                 />}
+                <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
+                    {movies.map(movie => (
+                        <MovieThumb
+                            key={movie.id}
+                            image={movie.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}` : NoImage}
+                            movieName={movie.original_title}
+                            clickable
+                            movieId={movie.id}
+                        />
+                    ))}
+                </Grid>
             </React.Fragment>
         );
     }
