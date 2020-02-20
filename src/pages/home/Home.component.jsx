@@ -15,6 +15,7 @@ import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
 import NoImage from '../../assets/no_image.jpg';
 import Spinner from '../../components/spinner/Spinner.component';
 import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
+import SearchBar from '../../components/search-bar/SearchBar.component';
 
 class Home extends React.Component{
     constructor(){
@@ -51,6 +52,13 @@ class Home extends React.Component{
         console.log('done fetching...');
     }
 
+    searchMovies = search => {
+        const endpoint = search ? SEARCH_BASE_URL + search : POPULAR_BASE_URL;
+
+        this.setState({searchTerm: search});
+        this.fetchMovies(endpoint);
+    }
+
     loadMoreMovies = () => {
         const searchEndpoint = `${SEARCH_BASE_URL}${this.state.searchTerm}&page=${this.state.data.currentPage + 1}`;
         const popularEndpoint = `${POPULAR_BASE_URL}&page=${this.state.data.currentPage + 1}`;
@@ -71,6 +79,7 @@ class Home extends React.Component{
                     title={heroImage.original_title}
                     text={heroImage.overview}
                 />}
+                <SearchBar callback={this.searchMovies}/>
                 <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
                     {movies.map(movie => (
                         <MovieThumb
