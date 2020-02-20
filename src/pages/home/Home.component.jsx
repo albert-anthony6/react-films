@@ -14,6 +14,7 @@ import Grid from '../../components/grid/Grid.component';
 import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
 import NoImage from '../../assets/no_image.jpg';
 import Spinner from '../../components/spinner/Spinner.component';
+import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
 
 class Home extends React.Component{
     constructor(){
@@ -31,11 +32,11 @@ class Home extends React.Component{
         const isLoadMore = endpoint.search('page');
         try{
             const result = await (await fetch(endpoint)).json();
-            this.setState( prev => (
-                {...prev,
+            this.setState( prev => ({
+                ...prev,
                 data: {
-                    movies: isLoadMore !== -1 ? [...prev.movies, ...result.results] : [...result.results],
-                    heroImage: prev.heroImage || result.results[0],
+                    movies: isLoadMore !== -1 ? [...prev.data.movies, ...result.results] : [...result.results],
+                    heroImage: prev.data.heroImage || result.results[0],
                     currentPage: result.page,
                     totalPages: result.total_pages
             }}));
@@ -48,6 +49,15 @@ class Home extends React.Component{
         console.log('...fetching');
         this.fetchMovies(POPULAR_BASE_URL);
         console.log('done fetching...');
+    }
+
+    loadMoreMovies = () => {
+        const searchEndpoint = `${SEARCH_BASE_URL}${this.state.searchTerm}&page=${this.state.data.currentPage + 1}`;
+        const popularEndpoint = `${POPULAR_BASE_URL}&page=${this.state.data.currentPage + 1}`;
+
+        const endpoint = this.state.searchTerm ? searchEndpoint : popularEndpoint;
+
+        this.fetchMovies(endpoint);
     }
 
     render(){
@@ -73,6 +83,9 @@ class Home extends React.Component{
                     ))}
                 </Grid>
                 {loading && <Spinner/>}
+                {currentPage < totalPages && !loading && (
+                    <LoadMoreBtn text="Load More" callback={this.loadMoreMovies}/>
+                )}
             </React.Fragment>
         );
     }
