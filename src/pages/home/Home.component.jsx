@@ -13,6 +13,7 @@ import HeroImage from '../../components/hero-image/HeroImage.component';
 import Grid from '../../components/grid/Grid.component';
 import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
 import NoImage from '../../assets/no_image.jpg';
+import Spinner from '../../components/spinner/Spinner.component';
 
 class Home extends React.Component{
     constructor(){
@@ -71,6 +72,7 @@ class Home extends React.Component{
                         />
                     ))}
                 </Grid>
+                {loading && <Spinner/>}
             </React.Fragment>
         );
     }
