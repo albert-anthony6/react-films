@@ -29,6 +29,10 @@ class Home extends React.Component{
     }
 
     fetchMovies = async endpoint => {
+        this.setState({
+            error: false,
+            loading: true
+        });
 
         const isLoadMore = endpoint.search('page');
         try{
@@ -42,8 +46,10 @@ class Home extends React.Component{
                     totalPages: result.total_pages
             }}));
         } catch(error){
+            this.setState({error: true});
             alert(error);
         }
+        this.setState({loading: false});
     }
 
     componentDidMount(){
