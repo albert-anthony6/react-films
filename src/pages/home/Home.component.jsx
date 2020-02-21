@@ -47,9 +47,28 @@ class Home extends React.Component{
     }
 
     componentDidMount(){
-        console.log('...fetching');
-        this.fetchMovies(POPULAR_BASE_URL);
-        console.log('done fetching...');
+        // console.log('...fetching');
+        // this.fetchMovies(POPULAR_BASE_URL);
+        // console.log('done fetching...');
+        if(sessionStorage.homeState){
+            console.log("Getting from session storage");
+            this.setState({
+                data: JSON.parse(sessionStorage.homeState),
+                loading: false
+            });
+        }else{
+            console.log("Getting from API");
+            this.fetchMovies(POPULAR_BASE_URL);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if((this.state.searchTerm !== prevState.searchTerm) || (this.state.data.movies !== prevState.data.movies)){
+            if(!this.state.searchTerm){
+                console.log("Writing to session storage, search is clear");
+                sessionStorage.setItem('homeState', JSON.stringify(this.state.data));
+            }
+        }
     }
 
     searchMovies = search => {
@@ -72,9 +91,11 @@ class Home extends React.Component{
         const {heroImage, currentPage, totalPages, movies} = this.state.data;
         const {searchTerm, loading, error} = this.state;
         console.log(this.state);
+        console.log('rendered');
+        if(!movies[0]) return <Spinner/>
         return(
             <React.Fragment>
-                {heroImage && <HeroImage
+                {!searchTerm && <HeroImage
                     image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${heroImage.backdrop_path}`}
                     title={heroImage.original_title}
                     text={heroImage.overview}
