@@ -4,13 +4,17 @@ import {API_URL, API_KEY} from '../../assets/config';
 import Navigation from '../../components/navigation/Navigation.component';
 import MovieInfo from '../../components/movie-info/MovieInfo.component';
 import MovieInfoBar from '../../components/movie-info-bar/MovieInfoBar.components';
+import Grid from '../../components/grid/Grid.component';
+import Actor from '../../components/actor/Actor.component';
+import Spinner from '../../components/spinner/Spinner.component';
 
 class Movie extends React.Component{
     constructor(){
         super();
         this.state={
             data: {
-                directors: []
+                directors: [],
+                actors: []
             },
             loading: true,
             error: false
@@ -18,10 +22,6 @@ class Movie extends React.Component{
     }
 
     fetchData = async movieId => {
-        this.setState({
-            error: false,
-            loading: true
-        });
 
         try{
             const endpoint = `${API_URL}movie/${movieId}?api_key=${API_KEY}`;
@@ -47,24 +47,30 @@ class Movie extends React.Component{
         this.setState({loading: false});
     }
 
+    stopLoading = () => {
+        const {movieId} = this.props.match.params;
+        this.setState({
+            data: JSON.parse(localStorage.getItem(`${movieId}`)),
+            loading: false
+        });
+    };
+
     componentDidMount(){
         const {movieId} = this.props.match.params;
         
         if(localStorage.getItem(`${movieId}`)){
             console.log("grabbing from localStorage" + " " + movieId);
-            this.setState({
-                data: JSON.parse(localStorage.getItem(`${movieId}`))
-            });
+            setTimeout(this.stopLoading, 100);
         } else {
             console.log("Grabbing from API");
             const {movieId} = this.props.match.params;
-            this.setState({loading: true});
             this.fetchData(movieId);
         }
     }
 
     render(){
-        const {data} = this.state;
+        const {data, loading} = this.state;
+        if(loading) return <Spinner/>
         return(
             <React.Fragment>
                 <Navigation movie={data.original_title} />
@@ -74,6 +80,11 @@ class Movie extends React.Component{
                     budget={data.budget}
                     revenue={data.revenue}
                 />
+                <Grid header="Actors">
+                    {data.actors.map(actor => (
+                        <Actor key={actor.credit_id} actor={actor}/>
+                    ))}
+                </Grid>
             </React.Fragment>
         );
     }
