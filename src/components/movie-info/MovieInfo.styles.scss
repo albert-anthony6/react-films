@@ -34,14 +34,15 @@
         h3{
             font-size: 16px;
             line-height: 0;
-            margin-top: 30px;
+            margin: 30px 0 20px 0;
         }
 
         p{
             font-family: 'Abel', sans-serif;
             font-size: 18px;
             line-height: 26px;
-            margin-top: 10px;
+            
+            &:first-of-type{margin: 10px 0 15px 0;}
         }
     }
 
@@ -66,7 +67,7 @@
     .director{
         margin: 0 0 0 40px;
 
-        p{
+        p:first-of-type{
             margin: 10px 0 0 0;
         }
     }

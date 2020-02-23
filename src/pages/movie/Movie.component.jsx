@@ -3,6 +3,7 @@ import {API_URL, API_KEY} from '../../assets/config';
 
 import Navigation from '../../components/navigation/Navigation.component';
 import MovieInfo from '../../components/movie-info/MovieInfo.component';
+import MovieInfoBar from '../../components/movie-info-bar/MovieInfoBar.components';
 
 class Movie extends React.Component{
     constructor(){
@@ -68,6 +69,11 @@ class Movie extends React.Component{
             <React.Fragment>
                 <Navigation movie={data.original_title} />
                 <MovieInfo movie={data}/>
+                <MovieInfoBar
+                    time={data.runtime}
+                    budget={data.budget}
+                    revenue={data.revenue}
+                />
             </React.Fragment>
         );
     }
