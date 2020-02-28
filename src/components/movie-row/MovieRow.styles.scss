@@ -1,0 +1,124 @@
+.movierow{
+    position: relative;
+    background: linear-gradient(to right, #222849 100%, rgba(255, 255, 255, 0));
+    padding-top: 2%;
+
+    &::before,
+    &::after{
+        content: '';
+        width: 11%;
+        height: 100%;
+        background: linear-gradient(to right, #222849 100%, rgba(255, 255, 255, 0));
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    &::after{
+        left: auto;
+        right: 0;
+        background: linear-gradient(to left, #222849 100%, rgba(255, 255, 255, 0));
+    }
+
+    h1{
+        font-family: sans-serif;
+        font-size: 22px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #fff;
+        margin: 0 0 1% 12.2%;
+    }
+
+    .movierow-content{
+        display: flex;
+        transition: transform 300ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        min-width: 3350px; /*220%*/
+    
+        .card{
+            margin: 0 20px 20px 20px;
+            opacity: 0.8;
+
+            &:hover{
+                opacity: 1;
+                transform: scale(1.1);
+                transition: transform ease-out .2s;
+            }
+        }
+    }
+
+    .arrow{
+        z-index: 999;
+        color: #fff;
+        background-color: #0266d0;
+        border-radius: 50%;
+        position: absolute;
+        cursor: pointer;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        transition: transform ease-out .2s;
+
+        &::after{
+            content: '>>>>...';
+            display: flex;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #0266d0;
+            color: #0266d0;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: all .3s;
+        }
+
+        &:hover{
+            box-shadow: 0 10px 20px rgba(0,0,0,.2);
+  
+            &::after{
+              transform: scale(1.6);
+              opacity: 0;
+            }
+          }
+  
+        &:active{
+            box-shadow: 0 5px 10px rgba(0,0,0,.2);
+
+            &::after{
+                transform: scale(.5);
+                opacity: 1;
+            }
+        }
+    }
+
+    .backarrow{
+        top: 45%;
+        left: 7%;
+
+        &:hover{
+            transform: translateX(-10px);
+        }
+  
+        &:active{
+            transform: translateX(-5px);
+        }
+    }
+
+    .nextarrow{
+        top: 45%;
+        right: 7%;
+
+        &:hover{
+            transform: translateX(10px);
+        }
+  
+        &:active{
+            transform: translateX(5px);
+        }
+    }
+}

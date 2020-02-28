@@ -6,7 +6,9 @@ import {
     POSTER_SIZE,
     BACKDROP_SIZE,
     SEARCH_BASE_URL,
-    POPULAR_BASE_URL
+    POPULAR_BASE_URL,
+    NOW_PLAYING_BASE_URL,
+    UPCOMING_BASE_URL
 } from '../../assets/config';
 
 import HeroImage from '../../components/hero-image/HeroImage.component';
@@ -16,19 +18,25 @@ import NoImage from '../../assets/no_image.jpg';
 import Spinner from '../../components/spinner/Spinner.component';
 import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
 import SearchBar from '../../components/search-bar/SearchBar.component';
+import MovieRow from '../../components/movie-row/MovieRow.component';
 
 class Home extends React.Component{
     constructor(){
         super();
         this.state={
             searchTerm: '',
-            data: {movies: []},
+            data: {movies: {
+                'popular': [],
+                'now_playing': [],
+                'upcoming': [],
+                'search': []
+            }},
             error: false,
             loading: false
         };
     }
 
-    fetchMovies = async endpoint => {
+    fetchMovies = async (endpoint, category) => {
         this.setState({
             error: false,
             loading: true
@@ -37,19 +45,22 @@ class Home extends React.Component{
         const isLoadMore = endpoint.search('page');
         try{
             const result = await (await fetch(endpoint)).json();
+            console.log(category + " " + " 5555");
             this.setState( prev => ({
                 ...prev,
                 data: {
-                    movies: isLoadMore !== -1 ? [...prev.data.movies, ...result.results] : [...result.results],
+                    // movies: isLoadMore !== -1 ? [...prev.data.movies, ...result.results] : [...result.results],
+                    movies: isLoadMore !== -1 ? {...prev.data.movies, [category]: [...prev.data.movies[category], ...result.results]} : { ...prev.data.movies, [category]: [...result.results]},
                     heroImage: prev.data.heroImage || result.results[0],
                     currentPage: result.page,
                     totalPages: result.total_pages
             }}));
         } catch(error){
             this.setState({error: true});
-            alert(error);
+            console.log(error);
         }
         this.setState({loading: false});
+        console.log(category + " " + " 5555");
     }
 
     componentDidMount(){
@@ -64,7 +75,9 @@ class Home extends React.Component{
             });
         }else{
             console.log("Getting from API");
-            this.fetchMovies(POPULAR_BASE_URL);
+            this.fetchMovies(POPULAR_BASE_URL, 'popular');
+            this.fetchMovies(NOW_PLAYING_BASE_URL, 'now_playing');
+            this.fetchMovies(UPCOMING_BASE_URL, 'upcoming');
         }
     }
 
@@ -78,10 +91,13 @@ class Home extends React.Component{
     }
 
     searchMovies = search => {
-        const endpoint = search ? SEARCH_BASE_URL + search : POPULAR_BASE_URL;
+        if(!search){
+            this.setState({searchTerm: search});
+            return;
+        };
 
         this.setState({searchTerm: search});
-        this.fetchMovies(endpoint);
+        this.fetchMovies(SEARCH_BASE_URL + search, 'search');
     }
 
     loadMoreMovies = () => {
@@ -90,7 +106,7 @@ class Home extends React.Component{
 
         const endpoint = this.state.searchTerm ? searchEndpoint : popularEndpoint;
 
-        this.fetchMovies(endpoint);
+        this.fetchMovies(endpoint, 'search');
     }
 
     render(){
@@ -98,7 +114,9 @@ class Home extends React.Component{
         const {searchTerm, loading, error} = this.state;
         console.log(this.state);
         console.log('rendered');
-        if(!movies[0]) return <Spinner/>
+        if(error) return <div>Whoops..Something went wrong</div>
+        // if(!movies[0]) return <Spinner/>
+        if(!movies.popular[0]) return <Spinner/>
         return(
             <React.Fragment>
                 {!searchTerm && <HeroImage
@@ -107,8 +125,11 @@ class Home extends React.Component{
                     text={heroImage.overview}
                 />}
                 <SearchBar callback={this.searchMovies}/>
-                <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
-                    {movies.map(movie => (
+                {!searchTerm && <MovieRow header='Now Playing' movies={movies.now_playing}/>}
+                {!searchTerm && <MovieRow header="Upcoming" movies={movies.upcoming}/>}
+                {!searchTerm && <MovieRow header='Popular' movies={movies.popular}/>}
+                {searchTerm && <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
+                    {movies.search.map(movie => (
                         <MovieThumb
                             key={movie.id}
                             image={movie.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}` : NoImage}
@@ -117,9 +138,9 @@ class Home extends React.Component{
                             movieId={movie.id}
                         />
                     ))}
-                </Grid>
+                </Grid>}
                 {loading && <Spinner/>}
-                {currentPage < totalPages && !loading && (
+                {currentPage < totalPages && !loading && searchTerm && (
                     <LoadMoreBtn text="Load More" callback={this.loadMoreMovies}/>
                 )}
             </React.Fragment>

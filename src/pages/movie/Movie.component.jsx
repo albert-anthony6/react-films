@@ -42,7 +42,7 @@ class Movie extends React.Component{
 
         }catch(error){
             this.setState({error: true});
-            alert(error);
+            console.log(error);
         }
         this.setState({loading: false});
     }
@@ -69,7 +69,8 @@ class Movie extends React.Component{
     }
 
     render(){
-        const {data, loading} = this.state;
+        const {data, loading, error} = this.state;
+        if(error) return <div>Whoops..something went wrong</div>
         if(loading) return <Spinner/>
         return(
             <React.Fragment>
