@@ -1,0 +1,54 @@
+@mixin attributes{
+    border: .2px solid #fff;
+    color: #fff;
+    padding: 8px 15px 8px 15px;
+    text-transform: uppercase;
+    font-family: "Abel", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.categories{
+    margin: 36px 670px 10px 12.2%;
+
+    button{
+        outline: none;
+        background-color: #161130;
+        
+        @include attributes();
+    }
+
+    .fa-caret-down{
+        margin-left: 15px;
+        font-size: 20px;
+    }
+
+    .categories-container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        
+        & > div{
+            @include attributes();
+            animation: falseHidden 1s;
+        }
+    }
+}
+
+.toggle-hidden{
+    margin: 25px 670px 0 11.2%;
+    border: 3px solid;
+    border-image-source: linear-gradient(90deg, rgba(255,86,132, 0.4) 0%, rgba(83,50,201,0.4) 68%);
+    border-image-slice: 1;
+    padding: .5% .4% .5% .4%;
+}
+
+@keyframes falseHidden{
+    from{
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
+}

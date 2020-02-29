@@ -19,6 +19,7 @@ import Spinner from '../../components/spinner/Spinner.component';
 import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
 import SearchBar from '../../components/search-bar/SearchBar.component';
 import MovieRow from '../../components/movie-row/MovieRow.component';
+import Categories from '../../components/categories/Categories.component';
 
 class Home extends React.Component{
     constructor(){
@@ -125,6 +126,7 @@ class Home extends React.Component{
                     text={heroImage.overview}
                 />}
                 <SearchBar callback={this.searchMovies}/>
+                {!searchTerm && <Categories/>}
                 {!searchTerm && <MovieRow header='Now Playing' movies={movies.now_playing}/>}
                 {!searchTerm && <MovieRow header="Upcoming" movies={movies.upcoming}/>}
                 {!searchTerm && <MovieRow header='Popular' movies={movies.popular}/>}

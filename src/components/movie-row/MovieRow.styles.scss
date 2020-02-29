@@ -1,6 +1,5 @@
 .movierow{
     position: relative;
-    background: linear-gradient(to right, #222849 100%, rgba(255, 255, 255, 0));
     padding-top: 2%;
 
     &::before,
@@ -8,7 +7,7 @@
         content: '';
         width: 11%;
         height: 100%;
-        background: linear-gradient(to right, #222849 100%, rgba(255, 255, 255, 0));
+        background: linear-gradient(to right, #161130 100%, rgba(255, 255, 255, 0));
         position: absolute;
         top: 0;
         left: 0;
@@ -18,7 +17,7 @@
     &::after{
         left: auto;
         right: 0;
-        background: linear-gradient(to left, #222849 100%, rgba(255, 255, 255, 0));
+        background: linear-gradient(to left, #161130 100%, rgba(255, 255, 255, 0));
     }
 
     h1{
