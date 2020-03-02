@@ -1,6 +1,8 @@
 import React from 'react';
 import './SearchBar.styles.scss';
 import FontAwesome from 'react-fontawesome';
+import {connect} from 'react-redux';
+import {searchMovies} from '../../redux/home-reducer/home.actions';
 
 class SearchBar extends React.Component{
     constructor(){
@@ -17,7 +19,7 @@ class SearchBar extends React.Component{
         this.setState({[e.target.name]: e.target.value});
 
         this.timeOut.current = setTimeout(() => {
-            this.props.callback(this.state.searchTerm);
+            this.props.searchMovies(this.state.searchTerm);
         }, 500);
     }
 
@@ -32,5 +34,8 @@ class SearchBar extends React.Component{
         );
     }
 }
+const mapDispatchToProps = dispatch => ({
+    searchMovies: search => dispatch(searchMovies(search))
+});
 
-export default SearchBar;
+export default connect(null, mapDispatchToProps)(SearchBar);

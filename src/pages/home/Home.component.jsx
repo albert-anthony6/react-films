@@ -5,11 +5,13 @@ import {
     IMAGE_BASE_URL,
     POSTER_SIZE,
     BACKDROP_SIZE,
-    SEARCH_BASE_URL,
     POPULAR_BASE_URL,
     NOW_PLAYING_BASE_URL,
     UPCOMING_BASE_URL
 } from '../../assets/config';
+
+import {connect} from 'react-redux';
+import {fetchMovies, loadMoreMovies, resetMovies} from '../../redux/home-reducer/home.actions';
 
 import HeroImage from '../../components/hero-image/HeroImage.component';
 import Grid from '../../components/grid/Grid.component';
@@ -22,101 +24,34 @@ import MovieRow from '../../components/movie-row/MovieRow.component';
 import Categories from '../../components/categories/Categories.component';
 
 class Home extends React.Component{
-    constructor(){
-        super();
-        this.state={
-            searchTerm: '',
-            data: {movies: {
-                'popular': [],
-                'now_playing': [],
-                'upcoming': [],
-                'search': []
-            }},
-            error: false,
-            loading: false
-        };
-    }
-
-    fetchMovies = async (endpoint, category) => {
-        this.setState({
-            error: false,
-            loading: true
-        });
-
-        const isLoadMore = endpoint.search('page');
-        try{
-            const result = await (await fetch(endpoint)).json();
-            console.log(category + " " + " 5555");
-            this.setState( prev => ({
-                ...prev,
-                data: {
-                    // movies: isLoadMore !== -1 ? [...prev.data.movies, ...result.results] : [...result.results],
-                    movies: isLoadMore !== -1 ? {...prev.data.movies, [category]: [...prev.data.movies[category], ...result.results]} : { ...prev.data.movies, [category]: [...result.results]},
-                    heroImage: prev.data.heroImage || result.results[0],
-                    currentPage: result.page,
-                    totalPages: result.total_pages
-            }}));
-        } catch(error){
-            this.setState({error: true});
-            console.log(error);
-        }
-        this.setState({loading: false});
-        console.log(category + " " + " 5555");
-    }
 
     componentDidMount(){
-        // console.log('...fetching');
-        // this.fetchMovies(POPULAR_BASE_URL);
-        // console.log('done fetching...');
         if(sessionStorage.homeState){
             console.log("Getting from session storage");
-            this.setState({
-                data: JSON.parse(sessionStorage.homeState),
-                loading: false
-            });
+            this.props.resetMovies(JSON.parse(sessionStorage.homeState));
         }else{
             console.log("Getting from API");
-            this.fetchMovies(POPULAR_BASE_URL, 'popular');
-            this.fetchMovies(NOW_PLAYING_BASE_URL, 'now_playing');
-            this.fetchMovies(UPCOMING_BASE_URL, 'upcoming');
+            this.props.fetchMovies(POPULAR_BASE_URL, 'popular');
+            this.props.fetchMovies(NOW_PLAYING_BASE_URL, 'now_playing');
+            this.props.fetchMovies(UPCOMING_BASE_URL, 'upcoming');
         }
     }
 
     componentDidUpdate(prevProps, prevState){
-        if((this.state.searchTerm !== prevState.searchTerm) || (this.state.data.movies !== prevState.data.movies)){
-            if(!this.state.searchTerm){
+        if((this.props.searchTerm !== prevProps.searchTerm) || (this.props.data.movies !== prevProps.data.movies)){
+            if(!this.props.searchTerm){
                 console.log("Writing to session storage, search is clear");
-                sessionStorage.setItem('homeState', JSON.stringify(this.state.data));
+                sessionStorage.setItem('homeState', JSON.stringify(this.props.data));
             }
         }
     }
 
-    searchMovies = search => {
-        if(!search){
-            this.setState({searchTerm: search});
-            return;
-        };
-
-        this.setState({searchTerm: search});
-        this.fetchMovies(SEARCH_BASE_URL + search, 'search');
-    }
-
-    loadMoreMovies = () => {
-        const searchEndpoint = `${SEARCH_BASE_URL}${this.state.searchTerm}&page=${this.state.data.currentPage + 1}`;
-        const popularEndpoint = `${POPULAR_BASE_URL}&page=${this.state.data.currentPage + 1}`;
-
-        const endpoint = this.state.searchTerm ? searchEndpoint : popularEndpoint;
-
-        this.fetchMovies(endpoint, 'search');
-    }
-
     render(){
-        const {heroImage, currentPage, totalPages, movies} = this.state.data;
-        const {searchTerm, loading, error} = this.state;
+        const {heroImage, currentPage, totalPages, movies} = this.props.data;
+        const {searchTerm, loading, error} = this.props;
         console.log(this.state);
         console.log('rendered');
-        if(error) return <div>Whoops..Something went wrong</div>
-        // if(!movies[0]) return <Spinner/>
+        // if(error) return <div>Whoops..Something went wrong</div>
         if(!movies.popular[0]) return <Spinner/>
         return(
             <React.Fragment>
@@ -125,7 +60,7 @@ class Home extends React.Component{
                     title={heroImage.original_title}
                     text={heroImage.overview}
                 />}
-                <SearchBar callback={this.searchMovies}/>
+                <SearchBar/>
                 {!searchTerm && <Categories/>}
                 {!searchTerm && <MovieRow header='Now Playing' movies={movies.now_playing}/>}
                 {!searchTerm && <MovieRow header="Upcoming" movies={movies.upcoming}/>}
@@ -143,11 +78,25 @@ class Home extends React.Component{
                 </Grid>}
                 {loading && <Spinner/>}
                 {currentPage < totalPages && !loading && searchTerm && (
-                    <LoadMoreBtn text="Load More" callback={this.loadMoreMovies}/>
+                    <LoadMoreBtn text="Load More" callback={this.props.loadMoreMovies}/>
                 )}
             </React.Fragment>
         );
     }
 };
 
-export default Home;
+const mapStateToProps = state => ({
+    searchTerm: state.home.searchTerm,
+    data: state.home.data,
+    loading: state.home.loading,
+    error: state.home.error
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchMovies: (endpoint, category) => dispatch(fetchMovies(endpoint, category)),
+    loadMoreMovies: () => dispatch(loadMoreMovies()),
+    resetMovies: (sessionData) => dispatch(resetMovies(sessionData)),
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
