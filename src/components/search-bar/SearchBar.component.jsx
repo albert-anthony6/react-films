@@ -2,7 +2,7 @@ import React from 'react';
 import './SearchBar.styles.scss';
 import FontAwesome from 'react-fontawesome';
 import {connect} from 'react-redux';
-import {searchMovies} from '../../redux/home-reducer/home.actions';
+import {searchMovies} from '../../redux/redux-home/home.actions';
 
 class SearchBar extends React.Component{
     constructor(){

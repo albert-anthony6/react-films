@@ -14,7 +14,13 @@ const INITIAL_STATE = {
 
 const homeReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
-        case HomeActionTypes.FETCH_MOVIES:
+        case HomeActionTypes.FETCH_MOVIES_START:
+            return{
+                ...state,
+                error: false,
+                loading: true
+            }
+        case HomeActionTypes.FETCH_MOVIES_SUCCESS:
             return{
                 ...state,
                 data: {
@@ -22,7 +28,14 @@ const homeReducer = (state = INITIAL_STATE, action) => {
                     heroImage: state.data.heroImage || action.payload.result.results[0],
                     currentPage: action.payload.result.page,
                     totalPages: action.payload.result.total_pages
-                }
+                },
+                loading: false
+            }
+        case HomeActionTypes.FETCH_MOVIES_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: true
             }
         case HomeActionTypes.SEARCH_MOVIES:
             return{

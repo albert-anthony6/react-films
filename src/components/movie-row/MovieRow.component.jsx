@@ -5,13 +5,9 @@ import NoImage from '../../assets/no_image.jpg';
 import RightArrow from '../arrows/RightArrow.component';
 import LeftArrow from '../arrows/LeftArrow.component';
 
-
 import {
     IMAGE_BASE_URL,
-    POSTER_SIZE,
-    BACKDROP_SIZE,
-    SEARCH_BASE_URL,
-    POPULAR_BASE_URL
+    POSTER_SIZE
 } from '../../assets/config';
 
 class MovieRow extends React.Component{

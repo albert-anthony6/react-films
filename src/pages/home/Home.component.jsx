@@ -11,7 +11,7 @@ import {
 } from '../../assets/config';
 
 import {connect} from 'react-redux';
-import {fetchMovies, loadMoreMovies, resetMovies} from '../../redux/home-reducer/home.actions';
+import {fetchMoviesStartAsync, loadMoreMovies, resetMovies} from '../../redux/redux-home/home.actions';
 
 import HeroImage from '../../components/hero-image/HeroImage.component';
 import Grid from '../../components/grid/Grid.component';
@@ -31,9 +31,9 @@ class Home extends React.Component{
             this.props.resetMovies(JSON.parse(sessionStorage.homeState));
         }else{
             console.log("Getting from API");
-            this.props.fetchMovies(POPULAR_BASE_URL, 'popular');
-            this.props.fetchMovies(NOW_PLAYING_BASE_URL, 'now_playing');
-            this.props.fetchMovies(UPCOMING_BASE_URL, 'upcoming');
+            this.props.fetchMoviesStartAsync(POPULAR_BASE_URL, 'popular');
+            this.props.fetchMoviesStartAsync(NOW_PLAYING_BASE_URL, 'now_playing');
+            this.props.fetchMoviesStartAsync(UPCOMING_BASE_URL, 'upcoming');
         }
     }
 
@@ -49,9 +49,8 @@ class Home extends React.Component{
     render(){
         const {heroImage, currentPage, totalPages, movies} = this.props.data;
         const {searchTerm, loading, error} = this.props;
-        console.log(this.state);
         console.log('rendered');
-        // if(error) return <div>Whoops..Something went wrong</div>
+        if(error) return <div>Whoops..Something went wrong</div>
         if(!movies.popular[0]) return <Spinner/>
         return(
             <React.Fragment>
@@ -90,13 +89,12 @@ const mapStateToProps = state => ({
     data: state.home.data,
     loading: state.home.loading,
     error: state.home.error
-})
+});
 
 const mapDispatchToProps = dispatch => ({
-    fetchMovies: (endpoint, category) => dispatch(fetchMovies(endpoint, category)),
+    fetchMoviesStartAsync: (endpoint, category) => dispatch(fetchMoviesStartAsync(endpoint, category)),
     loadMoreMovies: () => dispatch(loadMoreMovies()),
-    resetMovies: (sessionData) => dispatch(resetMovies(sessionData)),
-
-})
+    resetMovies: (sessionData) => dispatch(resetMovies(sessionData))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
