@@ -8,7 +8,8 @@ import {
     POPULAR_BASE_URL,
     NOW_PLAYING_BASE_URL,
     UPCOMING_BASE_URL,
-    SEARCH_BASE_URL
+    SEARCH_BASE_URL,
+    TOP_RATED_BASE_URL
 } from '../../assets/config';
 
 import {connect} from 'react-redux';
@@ -34,6 +35,7 @@ class Home extends React.Component{
             console.log("Getting from API");
             this.props.fetchMoviesStartAsync(POPULAR_BASE_URL, 'popular');
             this.props.fetchMoviesStartAsync(NOW_PLAYING_BASE_URL, 'now_playing');
+            this.props.fetchMoviesStartAsync(TOP_RATED_BASE_URL, 'top_rated');
             this.props.fetchMoviesStartAsync(UPCOMING_BASE_URL, 'upcoming');
         }
     }

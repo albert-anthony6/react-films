@@ -6,7 +6,8 @@ import {
     POSTER_SIZE,
     POPULAR_BASE_URL,
     UPCOMING_BASE_URL,
-    NOW_PLAYING_BASE_URL
+    NOW_PLAYING_BASE_URL,
+    TOP_RATED_BASE_URL
 } from '../../assets/config';
 
 import NoImage from '../../assets/no_image.jpg';
@@ -49,10 +50,12 @@ class Category extends React.Component{
         const popularEndpoint = `${POPULAR_BASE_URL}&page=${data.currentPage + 1}`;
         const upcomingEndpoint = `${UPCOMING_BASE_URL}&page=${data.currentPage + 1}`;
         const nowPlayingEndpoint = `${NOW_PLAYING_BASE_URL}&page=${data.currentPage + 1}`;
+        const topRatedEndpoint = `${TOP_RATED_BASE_URL}&page=${data.currentPage + 1}`;
 
         if(category === 'popular') endpoint = popularEndpoint;
         else if(category === 'upcoming') endpoint = upcomingEndpoint;
         else if(category === 'now-playing') endpoint = nowPlayingEndpoint;
+        else if(category === 'top-rated') endpoint = topRatedEndpoint;
         if(!this.state.ready) return <Spinner/>
         return(
             <React.Fragment>

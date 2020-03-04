@@ -6,7 +6,8 @@ const INITIAL_STATE = {
         'popular': [],
         'now_playing': [],
         'upcoming': [],
-        'search': []
+        'search': [],
+        'top_rated': []
     }},
     error: false,
     loading: false

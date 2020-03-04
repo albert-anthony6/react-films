@@ -28,7 +28,6 @@ class Categories extends React.Component{
                 {this.state.hidden ? <button onClick={this.toggleHidden}>Categories <FontAwesome className="fa-caret-down" name="caret-down"/></button> : 
                     <div className="categories-container">
                         <button onClick={this.toggleHidden}>Categories <FontAwesome className="fa-caret-down" name="caret-down"/></button>
-                        <Link to="category/latest">Latest</Link>
                         <Link to="category/top-rated">Top Rated</Link>
                         <Link to="category/now-playing">Now Playing</Link>
                         <Link to="category/upcoming">Upcoming</Link>
