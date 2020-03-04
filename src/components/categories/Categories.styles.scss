@@ -30,8 +30,9 @@
         flex-wrap: wrap;
         justify-content: space-evenly;
         
-        & > div{
+        & > a{
             @include attributes();
+            text-decoration: none;
             animation: falseHidden 1s;
         }
     }

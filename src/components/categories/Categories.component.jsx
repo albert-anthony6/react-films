@@ -1,6 +1,7 @@
 import React from 'react';
 import './Categories.styles.scss';
 import FontAwesome from 'react-fontawesome';
+import {Link} from 'react-router-dom';
 
 class Categories extends React.Component{
     constructor(){
@@ -27,11 +28,11 @@ class Categories extends React.Component{
                 {this.state.hidden ? <button onClick={this.toggleHidden}>Categories <FontAwesome className="fa-caret-down" name="caret-down"/></button> : 
                     <div className="categories-container">
                         <button onClick={this.toggleHidden}>Categories <FontAwesome className="fa-caret-down" name="caret-down"/></button>
-                        <div className="latest">Latest</div>
-                        <div className="toprated">Top Rated</div>
-                        <div className="nowplaying">Now Playing</div>
-                        <div className="upcoming">Upcoming</div>
-                        <div className="popular">Popular</div>
+                        <Link to="category/latest">Latest</Link>
+                        <Link to="category/top-rated">Top Rated</Link>
+                        <Link to="category/now-playing">Now Playing</Link>
+                        <Link to="category/upcoming">Upcoming</Link>
+                        <Link to="category/popular">Popular</Link>
                     </div>
                 }
             </div>
