@@ -57,15 +57,16 @@ export const searchMovies = (search) => {
     }
 }
 
-export const loadMoreMovies = () => {
-    return (dispatch, getState) => {
-        const state = getState();
-        const searchEndpoint = `${SEARCH_BASE_URL}${state.home.searchTerm}&page=${state.home.data.currentPage + 1}`;
-        const popularEndpoint = `${POPULAR_BASE_URL}&page=${state.home.data.currentPage + 1}`;
+export const loadMoreMovies = (endpoint, category) => {
+    return (dispatch) => {
+        // const state = getState();
+        // const searchEndpoint = `${SEARCH_BASE_URL}${state.home.searchTerm}&page=${state.home.data.currentPage + 1}`;
+        // const popularEndpoint = `${POPULAR_BASE_URL}&page=${state.home.data.currentPage + 1}`;
     
-        const endpoint = state.home.searchTerm ? searchEndpoint : popularEndpoint;
+        // const endpoint = state.home.searchTerm ? searchEndpoint : popularEndpoint;
+        console.log(endpoint + "  SPACE  " + category);
     
-        dispatch(fetchMoviesStartAsync(endpoint, 'search'));
+        dispatch(fetchMoviesStartAsync(endpoint, category));
     }
 }
 

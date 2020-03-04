@@ -7,7 +7,8 @@ import {
     BACKDROP_SIZE,
     POPULAR_BASE_URL,
     NOW_PLAYING_BASE_URL,
-    UPCOMING_BASE_URL
+    UPCOMING_BASE_URL,
+    SEARCH_BASE_URL
 } from '../../assets/config';
 
 import {connect} from 'react-redux';
@@ -48,7 +49,8 @@ class Home extends React.Component{
 
     render(){
         const {heroImage, currentPage, totalPages, movies} = this.props.data;
-        const {searchTerm, loading, error} = this.props;
+        const {searchTerm, loading, error, data} = this.props;
+        const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${data.currentPage + 1}`;
         console.log('rendered');
         if(error) return <div>Whoops..Something went wrong</div>
         if(!movies.popular[0]) return <Spinner/>
@@ -77,7 +79,7 @@ class Home extends React.Component{
                 </Grid>}
                 {loading && <Spinner/>}
                 {currentPage < totalPages && !loading && searchTerm && (
-                    <LoadMoreBtn text="Load More" callback={this.props.loadMoreMovies}/>
+                    <LoadMoreBtn text="Load More" callback={() => this.props.loadMoreMovies(searchEndpoint, 'search')}/>
                 )}
             </React.Fragment>
         );
@@ -93,7 +95,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchMoviesStartAsync: (endpoint, category) => dispatch(fetchMoviesStartAsync(endpoint, category)),
-    loadMoreMovies: () => dispatch(loadMoreMovies()),
+    loadMoreMovies: (endpoint, category) => dispatch(loadMoreMovies(endpoint, category)),
     resetMovies: (sessionData) => dispatch(resetMovies(sessionData))
 });
 
