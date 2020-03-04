@@ -4,14 +4,15 @@ import './Category.styles.scss';
 import {
     IMAGE_BASE_URL,
     POSTER_SIZE,
-    POPULAR_BASE_URL
+    POPULAR_BASE_URL,
+    UPCOMING_BASE_URL,
+    NOW_PLAYING_BASE_URL
 } from '../../assets/config';
 
 import NoImage from '../../assets/no_image.jpg';
 
 import { connect } from 'react-redux';
-import { loadMoreMovies } from '../../redux/redux-home/home.actions';
-import { resetMovies } from '../../redux/redux-home/home.actions';
+import { loadMoreMovies, resetMovies } from '../../redux/redux-home/home.actions';
 
 import Grid from '../../components/grid/Grid.component';
 import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
@@ -19,19 +20,40 @@ import Spinner from '../../components/spinner/Spinner.component';
 import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
 
 class Category extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            ready: false
+        }
+    }
 
     componentDidMount(){
         if(sessionStorage.homeState){
             console.log("Getting from session storage");
             this.props.resetMovies(JSON.parse(sessionStorage.homeState));
+            setTimeout(this.stopLoading, 100);
         }
     }
+
+    stopLoading = () => {
+        this.setState({
+            ready: true
+        });
+    };
 
     render(){
         const { match, data, loading, loadMoreMovies } = this.props;
         const { currentPage, totalPages } = data;
         let category = match.params.categoryId;
+        let endpoint;
         const popularEndpoint = `${POPULAR_BASE_URL}&page=${data.currentPage + 1}`;
+        const upcomingEndpoint = `${UPCOMING_BASE_URL}&page=${data.currentPage + 1}`;
+        const nowPlayingEndpoint = `${NOW_PLAYING_BASE_URL}&page=${data.currentPage + 1}`;
+
+        if(category === 'popular') endpoint = popularEndpoint;
+        else if(category === 'upcoming') endpoint = upcomingEndpoint;
+        else if(category === 'now-playing') endpoint = nowPlayingEndpoint;
+        if(!this.state.ready) return <Spinner/>
         return(
             <React.Fragment>
                 <Grid header={`${category}`}>
@@ -51,7 +73,7 @@ class Category extends React.Component{
                 {loading && <Spinner/>}
     
                 {currentPage < totalPages && !loading && (
-                    <LoadMoreBtn text="Load More" callback={() => loadMoreMovies(popularEndpoint, 'popular')}/>
+                    <LoadMoreBtn text="Load More" callback={() => loadMoreMovies(endpoint, category)}/>
                 )}
             </React.Fragment>
         );
