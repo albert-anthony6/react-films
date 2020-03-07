@@ -20,13 +20,13 @@ class MovieRow extends React.Component{
 
     goToPrevSlide = () => {
         if(this.state.index === 0){
-            return this.setState({index: 12});
+            return this.setState({index: 11});
         }
         this.setState({index: this.state.index - 1});
     }
 
     goToNextSlide = () => {
-        if(this.state.index === 12){
+        if(this.state.index === 11){
             return this.setState({index: 0});
         }
 
@@ -35,10 +35,13 @@ class MovieRow extends React.Component{
 
     render(){
         const hr={
+            marginTop: '50px',
             border: "0",
             height: "2px",
             backgroundImage: "radial-gradient(circle, rgba(210, 208, 208, 0.190914) 0%, rgba(210, 208, 208, 0) 90%)",
         }
+        console.log(this.state.index + ' SPACE ' + 'index');
+        console.log(`-${this.state.index * 5}%`);
         return(
             <div className="movierow">
                 <h1>{this.props.header}</h1>
