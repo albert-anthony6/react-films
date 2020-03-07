@@ -37,4 +37,16 @@
         float: left;
         margin-top: -3px;
     }
+
+    @media screen and (max-width: 768px) {
+        .fa-time,
+        .fa-revenue,
+        .fa-budget {
+          display: none;
+        }
+    }
+    
+    @media screen and (max-width: 425px) {
+        font-size: 14px;
+    }
 }

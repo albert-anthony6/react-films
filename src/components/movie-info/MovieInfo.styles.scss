@@ -17,6 +17,10 @@
     .movieinfo-thumb{
         width: 300px;
         float: left;
+
+        @media screen and (max-width: 768px) {
+            width: 100% !important;
+        }
     }
 
     .movieinfo-text{
@@ -29,6 +33,10 @@
             font-family: 'Abel', sans-serif;
             font-size: 48px;
             margin: 0;
+
+            @media screen and (max-width: 1000px) {
+                font-size: 32px !important;
+            }
         }
 
         h3{
@@ -70,6 +78,11 @@
         p:first-of-type{
             margin: 10px 0 0 0;
         }
+    }
+
+    @media screen and (max-width: 768px) {
+        min-height: 600px;
+        height: auto;
     }
 
     @keyframes animateMovieInfo{
