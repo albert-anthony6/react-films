@@ -28,7 +28,7 @@ class SearchBar extends React.Component{
             <div className="searchbar">
                 <div className="searchbar-content">
                     <FontAwesome className="fa-search" name="search" size="2x"/>
-                    <input type="text" placeholder="Movie" onChange={this.doSearch} name="searchTerm" value={this.state.searchTerm}/>
+                    <input type="text" placeholder="Movie" autocomplete="off" onChange={this.doSearch} name="searchTerm" value={this.state.searchTerm}/>
                 </div>
             </div>
         );
