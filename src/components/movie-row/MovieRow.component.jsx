@@ -60,7 +60,7 @@ class MovieRow extends React.Component{
                 </div>
                 <LeftArrow className="backarrow arrow" goToPrevSlide={this.goToPrevSlide}/>
                 <RightArrow className="nextarrow arrow" goToNextSlide={this.goToNextSlide}/>
-                <hr style={hr}></hr>>
+                <hr style={hr}></hr>
             </div>
         );
     }

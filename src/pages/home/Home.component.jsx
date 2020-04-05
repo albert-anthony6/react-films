@@ -1,5 +1,4 @@
 import React from 'react'
-import './Home.styles.scss';
 
 import {
     IMAGE_BASE_URL,
@@ -24,6 +23,7 @@ import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
 import SearchBar from '../../components/search-bar/SearchBar.component';
 import MovieRow from '../../components/movie-row/MovieRow.component';
 import Categories from '../../components/categories/Categories.component';
+import Footer from '../../components/footer/Footer.component';
 
 class Home extends React.Component{
 
@@ -83,6 +83,7 @@ class Home extends React.Component{
                 {currentPage < totalPages && !loading && searchTerm && (
                     <LoadMoreBtn text="Load More" callback={() => this.props.loadMoreMovies(searchEndpoint, 'search')}/>
                 )}
+                <Footer/>
             </React.Fragment>
         );
     }

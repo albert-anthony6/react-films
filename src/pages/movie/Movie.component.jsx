@@ -7,6 +7,7 @@ import MovieInfoBar from '../../components/movie-info-bar/MovieInfoBar.component
 import Grid from '../../components/grid/Grid.component';
 import Actor from '../../components/actor/Actor.component';
 import Spinner from '../../components/spinner/Spinner.component';
+import Footer from '../../components/footer/Footer.component';
 
 class Movie extends React.Component{
     constructor(){
@@ -86,6 +87,7 @@ class Movie extends React.Component{
                         <Actor key={actor.credit_id} actor={actor}/>
                     ))}
                 </Grid>
+                <Footer/>
             </React.Fragment>
         );
     }

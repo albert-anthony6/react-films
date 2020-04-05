@@ -1,0 +1,40 @@
+.footer{
+    background-color: #131517;
+    color: #fff;
+    
+    .footer-container{
+        padding: 50px 170px 50px 170px;
+
+        h2{font-size: 50px;}
+        p{margin-bottom: 15px;}
+        
+        a{
+            text-decoration: none;
+            color: rgb(66, 66, 218);
+        }
+        
+        .medias{
+            display: flex;
+            justify-content: flex-end;
+            
+            .fa-linkedin{margin-left: 15px; color: #fff;}
+            .fa-github{color: #fff;}
+        }
+
+        .copyright{
+            text-align: center;
+        }
+
+        @media screen and (max-width: 1000px){
+            padding: 50px;
+        }
+
+        @media screen and (max-width: 500px){
+            .medias{
+                display: inline-block;
+                margin: 15px 0 15px 0;
+            }
+            padding: 20px;
+        }
+    }
+}

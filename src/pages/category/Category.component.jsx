@@ -19,6 +19,7 @@ import Grid from '../../components/grid/Grid.component';
 import MovieThumb from '../../components/movie-thumb/MovieThumb.component';
 import Spinner from '../../components/spinner/Spinner.component';
 import LoadMoreBtn from '../../components/load-more-btn/LoadMoreBtn.component';
+import Footer from '../../components/footer/Footer.component';
 
 class Category extends React.Component{
     constructor(){
@@ -78,6 +79,7 @@ class Category extends React.Component{
                 {currentPage < totalPages && !loading && (
                     <LoadMoreBtn text="Load More" callback={() => loadMoreMovies(endpoint, category)}/>
                 )}
+                <Footer/>
             </React.Fragment>
         );
     }

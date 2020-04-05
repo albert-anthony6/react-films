@@ -6,6 +6,7 @@ import {Switch, Route} from 'react-router-dom';
 import Home from './pages/home/Home.component';
 import Movie from './pages/movie/Movie.component';
 import Category from './pages/category/Category.component';
+import NotFound from './pages/not-found/NotFound.component';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={Home}/>
           <Route exact path="/movie/:movieId" component={Movie}/>
           <Route exact path="/category/:categoryId" component={Category}/>
+          <Route path="*" component={NotFound}/>
         </Switch>
     </React.Fragment>
   );

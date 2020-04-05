@@ -1,6 +1,7 @@
 .movierow{
     position: relative;
     padding-top: 2%;
+    overflow-x: hidden;
 
     h1{
         font-family: sans-serif;
@@ -33,6 +34,10 @@
 
             @media screen and (max-width: 775px){
                 margin: 0 20px 20px 3px;
+            }
+
+            @media screen and (max-width: 500px){
+                opacity: 1;  
             }
 
             .card{
@@ -92,6 +97,11 @@
                 background-color: rgba(2, 102, 208, .8);
                 opacity: 1;
             }
+        }
+
+        @media screen and (max-width: 500px){
+            color: rgba(255, 255, 255, 1);
+            background-color: rgba(2, 102, 208, 1);   
         }
     }
 
