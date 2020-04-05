@@ -1,6 +1,19 @@
 .not-found{
-    color: #fff;
     height: 100vh;
     text-align: center;
-    font-size: 80px;
+
+    h2{
+        color: #fff;
+        font-size: 80px;
+    }
+
+    button{
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        font-size: 50px;
+        padding: 5px 10px 5px 10px;
+        border-radius: 5px;
+    }
 }
