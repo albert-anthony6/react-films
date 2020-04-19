@@ -30,13 +30,11 @@ export const fetchMoviesStartAsync = (endpoint, category) => {
         let result;
         try{
             result = await (await fetch(endpoint)).json();
-            console.log(category + " " + " 5555");
             dispatch(fetchMoviesSuccess(result, category, isLoadMore));
         } catch(error){
             dispatch(fetchMoviesFailure());
             console.log(error);
         }
-        console.log(category + " " + " 5555");
     }
 }
 
@@ -59,8 +57,6 @@ export const searchMovies = (search) => {
 
 export const loadMoreMovies = (endpoint, category) => {
     return (dispatch) => {
-        console.log(endpoint + "  SPACE  " + category);
-    
         dispatch(fetchMoviesStartAsync(endpoint, category));
     }
 }
