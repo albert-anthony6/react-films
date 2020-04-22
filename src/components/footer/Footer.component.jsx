@@ -11,11 +11,11 @@ class Footer extends React.Component{
                     <h2>React Theater</h2>
 
                     <div className="medias">
-                        <a href="https://github.com/albert-anthony6" target="_blank"><FontAwesome className="fa-github" name="github" size="3x"/></a>
-                        <a href="https://linkedin.com/in/avaldes21" target="_blank"><FontAwesome className="fa-linkedin" name="linkedin" size="3x"/></a>
+                        <a href="https://github.com/albert-anthony6" target="_blank" rel="noopener noreferrer"><FontAwesome className="fa-github" name="github" size="3x"/></a>
+                        <a href="https://linkedin.com/in/avaldes21" target="_blank" rel="noopener noreferrer"><FontAwesome className="fa-linkedin" name="linkedin" size="3x"/></a>
                     </div>
 
-                    <p>Portfolio: <a href="https://albertvaldes.herokuapp.com" target="_blank">albertvaldes.herokuapp.com</a></p>
+                    <p>Portfolio: <a href="https://albertvaldes.herokuapp.com" target="_blank" rel="noopener noreferrer">albertvaldes.herokuapp.com</a></p>
                     <p>Phone Number: (901) 265-2710</p>
                     <p className="copyright">Copyright ©2019</p>
                 </div>

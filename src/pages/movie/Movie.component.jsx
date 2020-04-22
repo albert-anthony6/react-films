@@ -60,7 +60,7 @@ class Movie extends React.Component{
         const {movieId} = this.props.match.params;
         
         if(localStorage.getItem(`${movieId}`)){
-            console.log("grabbing from localStorage" + " " + movieId);
+            console.log("grabbing from localStorage " + movieId);
             setTimeout(this.stopLoading, 100);
         } else {
             console.log("Grabbing from API");

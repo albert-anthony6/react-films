@@ -53,7 +53,6 @@ class Home extends React.Component{
         const {heroImage, currentPage, totalPages, movies} = this.props.data;
         const {searchTerm, loading, error, data} = this.props;
         const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${data.currentPage + 1}`;
-        console.log('rendered');
         if(error) return <div>Whoops..Something went wrong</div>
         if(!movies.popular[0]) return <Spinner/>
         return(

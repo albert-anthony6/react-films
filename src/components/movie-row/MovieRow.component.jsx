@@ -40,8 +40,6 @@ class MovieRow extends React.Component{
             height: "2px",
             backgroundImage: "radial-gradient(circle, rgba(210, 208, 208, 0.190914) 0%, rgba(210, 208, 208, 0) 90%)",
         }
-        console.log(this.state.index + ' SPACE ' + 'index');
-        console.log(`-${this.state.index * 5}%`);
         return(
             <div className="movierow">
                 <h1>{this.props.header}</h1>

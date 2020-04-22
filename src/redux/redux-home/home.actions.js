@@ -1,7 +1,6 @@
 import {HomeActionTypes} from './home.types';
 import {
-    SEARCH_BASE_URL,
-    POPULAR_BASE_URL
+    SEARCH_BASE_URL
 } from '../../assets/config';
 
 export const fetchMoviesStart = () => {
